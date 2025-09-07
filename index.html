@@ -1,0 +1,330 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Belajar Bahasa Rusia – 100 Kosakata (v3.0)</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#151923" />
+  <style>
+    :root{ --bg:#0f1115;--card:#151923;--ink:#eef2ff;--muted:#aab1c1;--accent:#7b1e2b;--accent-2:#a02a3b;--good:#1fa971;--bad:#e5484d;--ring:#2b3345 }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, Segoe UI, Roboto, Helvetica, Arial, system-ui, -apple-system, Noto Sans, "Apple Color Emoji","Segoe UI Emoji";color:var(--ink);background:radial-gradient(1200px 800px at 70% -10%, #1b2130 0, #0f1115 60%)}
+    header{max-width:1000px;margin:32px auto 12px;padding:0 20px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#2a0f13);box-shadow:0 0 0 1px #000 inset, 0 10px 30px rgba(123,30,43,.35)}
+    h1{font-size:clamp(22px,3.5vw,30px);margin:0}
+    .sub{color:var(--muted);margin-top:6px;font-size:14px}
+    main{max-width:1000px;margin:0 auto 80px;padding:0 20px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--ring);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)}
+
+    #controls{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:14px 0 18px;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid var(--ring);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600;letter-spacing:.2px;transition:.2s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{border-color:transparent;background:linear-gradient(180deg,var(--accent-2),var(--accent));box-shadow:0 10px 24px rgba(160,42,59,.35)}
+    .btn.ghost{background:transparent}
+    .btn.icon{display:inline-flex;gap:8px;align-items:center}
+
+    .select{appearance:none;border:1px solid var(--ring);background:#ffffff;color:#0b0d14;padding:10px 12px;border-radius:12px;font-weight:600}
+    .select:focus{outline:none;box-shadow:0 0 0 2px rgba(160,42,59,.35)}
+    select option, select optgroup{background:#ffffff;color:#0b0d14}
+
+    #quiz.card{padding:18px}
+    .row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    #progress{margin:6px 0 8px}
+    .meter{height:10px;background:#0a0d13;border:1px solid var(--ring);border-radius:999px;overflow:hidden}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#cf3050);transition:width .35s ease}
+    .statline{display:flex;gap:16px;color:var(--muted);font-size:13px;margin:6px 0 2px}
+    #prompt{font-size:clamp(18px,3.6vw,22px);margin:12px 6px 14px}
+
+    #options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    @media (max-width:640px){#options{grid-template-columns:1fr}}
+    .option{position:relative;border:1px solid var(--ring);background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));color:var(--ink);padding:14px 44px 14px 14px;border-radius:14px;cursor:pointer;text-align:left;font-size:16px;line-height:1.3;transition:transform .08s ease, border-color .2s}
+    .option:hover{transform:translateY(-1px);border-color:#3a435a}
+    .option[disabled]{opacity:.8;cursor:not-allowed}
+    .badge{position:absolute;right:10px;top:10px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;border:1px solid var(--ring)}
+    .option.correct{border-color:rgba(31,169,113,.6);background:linear-gradient(180deg, rgba(31,169,113,.18), rgba(31,169,113,.08))}
+    .option.correct .badge{background:rgba(31,169,113,.25);color:#d6ffe8}
+    .option.wrong{border-color:rgba(229,72,77,.6);background:linear-gradient(180deg, rgba(229,72,77,.20), rgba(229,72,77,.08))}
+    .option.wrong .badge{background:rgba(229,72,77,.25);color:#ffe0e0}
+
+    .muted{color:var(--muted)}
+    .sep{flex:1;height:1px;background:linear-gradient(90deg,transparent, var(--ring), transparent)}
+    #feedback{min-height:24px;margin:10px 4px 4px;color:var(--muted);font-size:14px}
+    #afterWrong{display:none;margin-top:8px}
+
+    #result.card{padding:22px;margin-top:16px}
+    .big{font-size:clamp(28px,5.5vw,40px);font-weight:800;letter-spacing:.3px}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px}
+    @media (max-width:780px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .kp{padding:14px;border:1px solid var(--ring);border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01))}
+    .kp h4{margin:0 0 4px;font-size:13px;color:var(--muted);font-weight:600}
+    .kp p{margin:0;font-weight:800;font-size:20px}
+
+    .review{margin-top:14px;padding:14px;border:1px dashed var(--ring);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01))}
+    .wrong-list{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+    .witem{padding:12px;border:1px solid var(--ring);border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01))}
+    .whead{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:6px}
+    .whead b{color:#e9ecff}
+    .wrow{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .wrow .map{font-weight:600}
+
+    details.bank{margin-top:16px}
+    details.bank[open] > summary{margin-bottom:10px}
+    .bank-body{margin-top:12px;padding:14px;border:1px dashed var(--ring);border-radius:12px}
+    .bank-body .grid{gap:12px;margin-top:10px;margin-bottom:12px}
+    .bank-body .row{margin-top:12px !important;gap:10px !important}
+    #bankTable{margin-top:14px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Belajar Bahasa Rusia – 100 Kosakata</h1>
+        <div class="sub">Kuis pilihan ganda: <em>Rusia → Arti</em> / <em>Arti → Rusia</em>. Tambahan: Audio pelafalan + Bank Soal + Review jawaban salah.</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="controls">
+      <div class="row" style="gap:8px">
+        <button id="startBtn" class="btn primary">Mulai / Ulangi</button>
+        <button id="toggleMode" class="btn ghost" title="Mode Campur atau Searah">Mode: <span id="modeText">Campur</span></button>
+        <button id="speakBtn" class="btn icon" title="Dengar pelafalan Rusia"><span>▶️ Pelafalan (RU)</span></button>
+      </div>
+      <div class="row muted" style="gap:10px;align-items:center">
+        <label for="sectionSel">Bagian:</label>
+        <select id="sectionSel" class="select">
+          <option value="Semua" selected>Semua</option>
+          <option value="Nomina">Nomina</option>
+          <option value="Pronomina">Pronomina</option>
+          <option value="Adjektiva">Adjektiva</option>
+          <option value="Verba">Verba</option>
+          <option value="Adverbia">Adverbia</option>
+          <option value="Numeralia">Numeralia</option>
+        </select>
+        <span>Soal per sesi: <strong id="totalQ">100</strong></span>
+      </div>
+    </div>
+
+    <section id="quiz" class="card" aria-live="polite">
+      <div class="row">
+        <div class="statline">
+          <span>Soal: <b id="qNum">0</b>/<b id="qTot">100</b></span>
+          <span>Benar: <b id="ok">0</b></span>
+          <span>Salah: <b id="ng">0</b></span>
+        </div>
+        <div class="sep"></div>
+        <div class="statline"><span>Progres</span></div>
+      </div>
+      <div id="progress" class="meter"><div class="fill" id="bar"></div></div>
+      <h2 id="prompt">Pilih bagian, lalu tekan “Mulai / Ulangi”.</h2>
+      <div id="options"></div>
+      <div id="feedback"></div>
+      <div id="afterWrong" class="row">
+        <div class="sep"></div>
+        <button id="nextBtn" class="btn primary">Lanjut</button>
+      </div>
+    </section>
+
+    <section id="result" class="card" hidden>
+      <div class="row" style="align-items:flex-end">
+        <div>
+          <div class="muted">Selesai</div>
+          <div class="big" id="scoreText">Nilai Akhir: 0%</div>
+        </div>
+        <div class="sep"></div>
+        <button class="btn primary" id="restart2">Ulangi Sesi</button>
+      </div>
+      <div class="kpis" style="margin-top:10px">
+        <div class="kp"><h4>Benar</h4><p id="kpiBenar">0</p></div>
+        <div class="kp"><h4>Salah</h4><p id="kpiSalah">0</p></div>
+        <div class="kp"><h4>Persentase Benar</h4><p id="kpiPct">0%</p></div>
+        <div class="kp"><h4>Durasi</h4><p id="kpiTime">0 detik</p></div>
+      </div>
+
+      <!-- Review jawaban salah (LIST) -->
+      <div id="review" class="review" hidden>
+        <div class="whead"><b>Daftar jawaban salah</b> • <span id="wrongCount" class="muted"></span></div>
+        <div id="wrongList" class="wrong-list"></div>
+      </div>
+    </section>
+
+    <details class="bank">
+      <summary class="btn ghost">🔧 Bank Soal (Tambahkan kosakata sendiri)</summary>
+      <div class="bank-body">
+        <div class="tiny">Masukkan entri baru (Rusia, Arti Indonesia, Bagian Kata). Bagian harus salah satu dari: Nomina, Pronomina, Adjektiva, Verba, Adverbia, Numeralia.</div>
+        <div class="grid">
+          <input id="inRu" class="input" placeholder="teks Rusia (ru)" />
+          <input id="inId" class="input" placeholder="arti Indonesia (id)" />
+          <select id="inPos" class="input">
+            <option>Nomina</option><option>Pronomina</option><option>Adjektiva</option>
+            <option>Verba</option><option>Adverbia</option><option>Numeralia</option>
+          </select>
+        </div>
+        <div class="row">
+          <button id="addBank" class="btn primary">Tambah ke Bank</button>
+          <button id="exportBank" class="btn">Export JSON</button>
+          <label class="btn" for="importFile" style="cursor:pointer">Import JSON</label>
+          <input type="file" id="importFile" accept="application/json" style="display:none" />
+          <span class="sep"></span>
+          <button id="clearBank" class="btn ghost" title="Hapus semua entri custom">Hapus Semua</button>
+        </div>
+        <table id="bankTable">
+          <thead><tr><th>#</th><th>Rusia</th><th>Arti</th><th>Bagian</th><th>Aksi</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
+  </main>
+
+  <script>
+  // ============ DATASET DASAR (100) ============
+  const BASE_VOCAB = [
+    {ru:'де́душка', id:'kakek', pos:'Nomina'},{ru:'ба́бушка', id:'nenek', pos:'Nomina'},{ru:'па́па/оте́ц', id:'ayah', pos:'Nomina'},{ru:'ма́ма/мать', id:'ibu', pos:'Nomina'},{ru:'челове́к', id:'orang', pos:'Nomina'},{ru:'семья́', id:'keluarga', pos:'Nomina'},{ru:'пти́цы', id:'burung-burung', pos:'Nomina'},{ru:'соба́ка', id:'anjing', pos:'Nomina'},{ru:'ко́шка', id:'kucing', pos:'Nomina'},{ru:'ло́шадь', id:'kuda', pos:'Nomina'},{ru:'дом', id:'rumah', pos:'Nomina'},{ru:'го́род', id:'kota', pos:'Nomina'},{ru:'страна́', id:'negara', pos:'Nomina'},{ru:'шко́ла', id:'sekolah', pos:'Nomina'},{ru:'больни́ца', id:'rumah sakit', pos:'Nomina'},{ru:'заво́д', id:'pabrik', pos:'Nomina'},{ru:'стол', id:'meja', pos:'Nomina'},{ru:'стул', id:'kursi', pos:'Nomina'},{ru:'кре́сло', id:'kursi berlengan', pos:'Nomina'},{ru:'дива́н', id:'sofa', pos:'Nomina'},{ru:'кни́га', id:'buku', pos:'Nomina'},{ru:'тетра́дь', id:'buku catatan', pos:'Nomina'},{ru:'ру́чка', id:'pulpen', pos:'Nomina'},{ru:'каранда́ш', id:'pensil', pos:'Nomina'},{ru:'пальто́', id:'mantel', pos:'Nomina'},{ru:'ша́пка', id:'topi', pos:'Nomina'},{ru:'перча́тки', id:'sarung tangan', pos:'Nomina'},{ru:'сапоги́', id:'sepatu bot', pos:'Nomina'},{ru:'вода́', id:'air', pos:'Nomina'},{ru:'еда́', id:'makanan', pos:'Nomina'},
+    {ru:'я', id:'saya', pos:'Pronomina'},{ru:'ты', id:'kamu', pos:'Pronomina'},{ru:'он', id:'dia (laki-laki)', pos:'Pronomina'},{ru:'она́', id:'dia (perempuan)', pos:'Pronomina'},{ru:'оно́', id:'dia (netral)', pos:'Pronomina'},{ru:'мы', id:'kami/kita', pos:'Pronomina'},{ru:'вы', id:'Anda/kalian', pos:'Pronomina'},{ru:'они́', id:'mereka', pos:'Pronomina'},{ru:'кто', id:'siapa', pos:'Pronomina'},{ru:'что', id:'apa', pos:'Pronomina'},{ru:'где', id:'di mana', pos:'Pronomina'},{ru:'когда́', id:'kapan', pos:'Pronomina'},{ru:'почему́', id:'mengapa', pos:'Pronomina'},{ru:'как', id:'bagaimana', pos:'Pronomina'},
+    {ru:'хоро́ший', id:'baik', pos:'Adjektiva'},{ru:'плохо́й', id:'buruk', pos:'Adjektiva'},{ru:'большо́й', id:'besar', pos:'Adjektiva'},{ru:'ма́ленький', id:'kecil', pos:'Adjektiva'},{ru:'но́вый', id:'baru', pos:'Adjektiva'},{ru:'ста́рый', id:'tua', pos:'Adjektiva'},{ru:'краси́вый', id:'cantik', pos:'Adjektiva'},{ru:'молодо́й', id:'muda', pos:'Adjektiva'},{ru:'до́брый', id:'baik hati', pos:'Adjektiva'},{ru:'у́мный', id:'pintar', pos:'Adjektiva'},{ru:'интере́сный', id:'menarik', pos:'Adjektiva'},{ru:'ва́жный', id:'penting', pos:'Adjektiva'},{ru:'лёгкий', id:'mudah', pos:'Adjektiva'},{ru:'тру́дный', id:'sulit', pos:'Adjektiva'},{ru:'горя́чий', id:'panas', pos:'Adjektiva'},{ru:'холо́дный', id:'dingin', pos:'Adjektiva'},
+    {ru:'быть', id:'menjadi', pos:'Verba'},{ru:'мочь', id:'bisa', pos:'Verba'},{ru:'хоте́ть', id:'ingin', pos:'Verba'},{ru:'знать', id:'tahu', pos:'Verba'},{ru:'де́лать', id:'melakukan', pos:'Verba'},{ru:'чита́ть', id:'membaca', pos:'Verba'},{ru:'ду́мать', id:'berpikir', pos:'Verba'},{ru:'понима́ть', id:'mengerti', pos:'Verba'},{ru:'слу́шать', id:'mendengarkan', pos:'Verba'},{ru:'отвеча́ть', id:'menjawab', pos:'Verba'},{ru:'спра́шивать', id:'bertanya', pos:'Verba'},{ru:'рабо́тать', id:'bekerja', pos:'Verba'},{ru:'изуча́ть', id:'mempelajari', pos:'Verba'},{ru:'отдыха́ть', id:'beristirahat', pos:'Verba'},{ru:'игра́ть', id:'bermain', pos:'Verba'},{ru:'за́втракать', id:'sarapan', pos:'Verba'},{ru:'обе́дать', id:'makan siang', pos:'Verba'},{ru:'у́жинать', id:'makan malam', pos:'Verba'},{ru:'начина́ть', id:'memulai', pos:'Verba'},{ru:'повторя́ть', id:'mengulang', pos:'Verba'},
+    {ru:'здесь', id:'di sini', pos:'Adverbia'},{ru:'там', id:'di sana', pos:'Adverbia'},{ru:'сейча́с', id:'sekarang', pos:'Adverbia'},{ru:'пото́м', id:'kemudian', pos:'Adverbia'},{ru:'всегда́', id:'selalu', pos:'Adverbia'},{ru:'никогда́', id:'tidak pernah', pos:'Adverbia'},{ru:'о́чень', id:'sangat', pos:'Adverbia'},{ru:'хорошо́', id:'dengan baik', pos:'Adverbia'},{ru:'пло́хо', id:'dengan buruk', pos:'Adverbia'},{ru:'бы́стро', id:'dengan cepat', pos:'Adverbia'},
+    {ru:'оди́н', id:'satu', pos:'Numeralia'},{ru:'два', id:'dua', pos:'Numeralia'},{ru:'три', id:'tiga', pos:'Numeralia'},{ru:'четы́ре', id:'empat', pos:'Numeralia'},{ru:'пять', id:'lima', pos:'Numeralia'},{ru:'шесть', id:'enam', pos:'Numeralia'},{ru:'семь', id:'tujuh', pos:'Numeralia'},{ru:'во́семь', id:'delapan', pos:'Numeralia'},{ru:'де́вять', id:'sembilan', pos:'Numeralia'},{ru:'де́сять', id:'sepuluh', pos:'Numeralia'}
+  ];
+
+  // ============ DOM ============
+  const $ = (s)=>document.querySelector(s);
+  const qNum = $('#qNum'), qTot = $('#qTot'), ok = $('#ok'), ng = $('#ng');
+  const bar = $('#bar'), promptEl = $('#prompt'), options = $('#options'), feedback = $('#feedback');
+  const result = $('#result'), scoreText = $('#scoreText');
+  const kpiBenar = $('#kpiBenar'), kpiSalah = $('#kpiSalah'), kpiPct = $('#kpiPct'), kpiTime = $('#kpiTime');
+  const totalQ = $('#totalQ'), modeText = $('#modeText'), sectionSel = $('#sectionSel');
+  const afterWrong = $('#afterWrong'), nextBtn = $('#nextBtn');
+  const startBtn = $('#startBtn'), toggleModeBtn = $('#toggleMode'), speakBtn = $('#speakBtn'), restart2 = $('#restart2');
+  const reviewBox = $('#review'), wrongList = $('#wrongList'), wrongCount = $('#wrongCount');
+
+  // ============ UTIL & TTS ============
+  const shuffle = (arr)=>{const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const now = ()=> Date.now();
+  function speak(text, lang='ru-RU'){
+    try{
+      // Fallback ke native Android (APK) bila tersedia
+      if (window.Android && typeof window.Android.speak === 'function') {
+        window.Android.speak(String(text||''), String(lang||'ru-RU'));
+        return;
+      }
+      // Web Speech untuk PWA/Chrome
+      if(!('speechSynthesis' in window)) { console.warn('Speech Synthesis tidak tersedia'); return }
+      const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=1;u.pitch=1;u.volume=1;const voices=speechSynthesis.getVoices();const ruV=voices.find(v=>/ru/i.test(v.lang));if(ruV) u.voice=ruV; speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }catch(e){console.error(e)}
+  }
+
+  // ============ BANK SOAL ============
+  const BANK_KEY='ru_bank_v1';
+  const getBank=()=>{try{return JSON.parse(localStorage.getItem(BANK_KEY)||'[]')}catch{return []}};
+  const setBank=(arr)=>localStorage.setItem(BANK_KEY, JSON.stringify(arr));
+  const addBankRow=(vocab)=>{const tb=$('#bankTable tbody');const tr=document.createElement('tr');const idx=tb.children.length+1;tr.innerHTML=`<td>${idx}</td><td>${vocab.ru}</td><td>${vocab.id}</td><td>${vocab.pos}</td><td><button class="btn tinyDel">Hapus</button></td>`;tr.querySelector('.tinyDel').addEventListener('click',()=>{const all=getBank();const filtered=all.filter(x=>!(x.ru===vocab.ru&&x.id===vocab.id&&x.pos===vocab.pos));setBank(filtered);renderBank();refreshTotals();});tb.appendChild(tr)}
+  function renderBank(){const tb=$('#bankTable tbody');tb.innerHTML='';getBank().forEach(addBankRow)}
+  const getDataset=()=>BASE_VOCAB.concat(getBank());
+
+  // ============ STATE ============
+  let DATA=getDataset(); let activeSet=[]; let order=[]; let total=0; let idx=0; let benar=0; let salah=0; let startTime=0; let mode='mix';
+  let currentPair=null; let currentDir='ru-id';
+  let wrongLog=[]; // simpan jawaban salah
+
+  const refreshTotals=()=>{ DATA=getDataset(); const val=sectionSel.value; activeSet=(val==='Semua')?DATA.slice():DATA.filter(v=>v.pos===val); total=activeSet.length; qTot.textContent=total; totalQ.textContent=total };
+  renderBank(); refreshTotals();
+
+  // ============ QUIZ FLOW ============
+  function startQuiz(){ refreshTotals(); if(total===0){alert('Tidak ada kosakata pada bagian ini. Tambahkan di Bank Soal atau pilih bagian lain.'); return}
+    order=shuffle([...Array(total).keys()]); idx=0; benar=0; salah=0; wrongLog=[]; startTime=now(); ok.textContent=0; ng.textContent=0; qNum.textContent=0; bar.style.width='0%'; feedback.textContent=''; result.hidden=true; afterWrong.style.display='none'; reviewBox.hidden=true; buildQuestion(); }
+
+  function buildQuestion(){ if(idx>=total){return finish()} const i=order[idx]; const pair=activeSet[i]; currentPair=pair; currentDir=mode==='mix'?(Math.random()<.5?'ru-id':'id-ru'):mode; let questionText, answer, answersPool; if(currentDir==='ru-id'){questionText=`Apa arti dari kata Rusia: “${pair.ru}”?`; answer=pair.id; answersPool=activeSet.map(v=>v.id)} else {questionText=`Apa bahasa Rusia dari: “${pair.id}”?`; answer=pair.ru; answersPool=activeSet.map(v=>v.ru)} const distractors=shuffle(answersPool.filter(x=>x!==answer)).slice(0,3); const four=shuffle([answer,...distractors]); qNum.textContent=idx+1; bar.style.width=`${Math.round(((idx)/total)*100)}%`; promptEl.textContent=questionText; options.innerHTML=''; feedback.textContent=''; afterWrong.style.display='none'; four.forEach((text,k)=>{const btn=document.createElement('button'); btn.className='option'; btn.innerHTML=`<span>${text}</span><span class="badge">${k+1}</span>`; btn.addEventListener('click',()=>handleAnswer(btn,text,answer)); options.appendChild(btn)}) }
+
+  function lockOptions(){[...options.children].forEach(b=>b.setAttribute('disabled','true'))}
+  function revealCorrect(answer){[...options.children].forEach(b=>{const val=b.firstChild.textContent; if(val===answer){b.classList.add('correct'); b.querySelector('.badge').textContent='✓'}})}
+  function handleAnswer(btn,chosen,answer){ lockOptions(); const isCorrect=chosen===answer; if(isCorrect){ benar++; ok.textContent=benar; btn.classList.add('correct'); btn.querySelector('.badge').textContent='✓'; feedback.textContent='Benar.'; setTimeout(()=>{ idx++; buildQuestion() },720) } else { salah++; ng.textContent=salah; btn.classList.add('wrong'); btn.querySelector('.badge').textContent='✗'; feedback.textContent='Kurang tepat. Jawaban yang benar ditandai. Tekan "Lanjut".'; revealCorrect(answer); afterWrong.style.display='flex'; wrongLog.push({ index: idx+1, dir: currentDir, ru: currentPair.ru, id: currentPair.id, correct: answer, chosen: chosen, pos: currentPair.pos }); } }
+
+  function finish(){ bar.style.width='100%'; const pct=Math.round((benar/total)*100); const secs=Math.max(1,Math.round((now()-startTime)/1000)); scoreText.textContent=`Nilai Akhir: ${pct}%`; kpiBenar.textContent=`${benar}`; kpiSalah.textContent=`${salah}`; kpiPct.textContent=`${pct}%`; kpiTime.textContent=`${secs} detik`; result.hidden=false; promptEl.textContent='Sesi selesai. Lihat statistik di bawah atau tekan Ulangi.'; options.innerHTML=''; feedback.textContent=''; afterWrong.style.display='none'; populateWrongReview(); }
+
+  // ============ REVIEW SALAH (LIST) ============
+  function populateWrongReview(){
+    const box = document.getElementById('review');
+    box.hidden = false;
+    const wrongList = document.getElementById('wrongList');
+    const wrongCount = document.getElementById('wrongCount');
+    wrongList.innerHTML = '';
+    if(!wrongLog.length){
+      wrongCount.textContent = 'Tidak ada jawaban salah. Mantap!';
+      const div = document.createElement('div');
+      div.className = 'witem';
+      div.innerHTML = '<div class="map">Semua jawaban benar 🎉</div>';
+      wrongList.appendChild(div);
+      return;
+    }
+    wrongCount.textContent = `${wrongLog.length} butir`;
+    wrongLog.forEach((w)=>{
+      const dirText = w.dir==='ru-id' ? 'Rusia → Arti' : 'Arti → Rusia';
+      const ruTxt = w.ru, idTxt = w.id;
+      const item = document.createElement('div'); item.className='witem';
+      item.innerHTML = `
+        <div class="whead">#${w.index} • <b>${w.pos}</b> • ${dirText}</div>
+        <div class="wrow">
+          <div class="map">Benar: ${w.dir==='ru-id' ? `${ruTxt} → <b>${idTxt}</b>` : `${idTxt} → <b>${ruTxt}</b>`}<br/>Jawaban Anda: ${w.chosen}</div>
+          <button class="btn icon" data-ru="${ruTxt}">▶️ Putar</button>
+        </div>`;
+      const btn = item.querySelector('button');
+      btn.addEventListener('click', ()=> speak(btn.getAttribute('data-ru'), 'ru-RU'));
+      wrongList.appendChild(item);
+    });
+  }
+
+  // ============ EVENTS ============
+  startBtn.addEventListener('click', startQuiz);
+  restart2.addEventListener('click', startQuiz);
+  toggleModeBtn.addEventListener('click', ()=>{ if(mode==='mix'){mode='ru-id'} else if(mode==='ru-id'){mode='id-ru'} else {mode='mix'}; modeText.textContent=mode==='mix'?'Campur':(mode==='ru-id'?'Rusia → Arti':'Arti → Rusia') });
+  sectionSel.addEventListener('change', refreshTotals);
+  nextBtn.addEventListener('click', ()=>{ idx++; buildQuestion() });
+  speakBtn.addEventListener('click', ()=>{ if(!currentPair) return; speak(currentPair.ru,'ru-RU') });
+
+  // === BANK SOAL ===
+  const allowedPOS = ['Nomina','Pronomina','Adjektiva','Verba','Adverbia','Numeralia'];
+  const toTitle = s=> s.replace(/\s+/g,' ').trim().toLowerCase().replace(/^./,c=>c.toUpperCase());
+  document.querySelector('#addBank').addEventListener('click', ()=>{
+    const ru = document.querySelector('#inRu').value.trim();
+    const id = document.querySelector('#inId').value.trim();
+    let pos = document.querySelector('#inPos').value.trim();
+    if(!allowedPOS.includes(pos)) pos = toTitle(pos);
+    if(!ru || !id){ alert('Mohon isi Rusia dan Arti.'); return }
+    if(!allowedPOS.includes(pos)){ alert('Bagian kata tidak valid.'); return }
+    const all = getBank(); all.push({ru,id,pos}); setBank(all);
+    document.querySelector('#inRu').value=''; document.querySelector('#inId').value='';
+    renderBank(); refreshTotals();
+  });
+  document.querySelector('#exportBank').addEventListener('click', ()=>{
+    const data = JSON.stringify(getBank(), null, 2);
+    const blob = new Blob([data], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'bank_kosakata_ru.json'; a.click(); URL.revokeObjectURL(url);
+  });
+  document.querySelector('#importFile').addEventListener('change', (e)=>{
+    const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
+    reader.onload = ()=>{ try{ const arr = JSON.parse(reader.result);
+      if(!Array.isArray(arr)) throw new Error('Format salah');
+      const cleaned = arr.map(x=>({ ru: String(x.ru||'').trim(), id: String(x.id||'').trim(), pos: allowedPOS.includes(String(x.pos)) ? x.pos : toTitle(String(x.pos||'')) })).filter(x=>x.ru && x.id && allowedPOS.includes(x.pos));
+      setBank(cleaned); renderBank(); refreshTotals(); alert('Import berhasil.');
+    }catch(err){ alert('Gagal import: '+err.message) } }; reader.readAsText(file);
+  });
+  document.querySelector('#clearBank').addEventListener('click', ()=>{ if(confirm('Hapus semua entri bank soal?')){ setBank([]); renderBank(); refreshTotals(); } });
+
+  // ============ PWA: Service Worker Register ============
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(console.error);
+    });
+  }
+  </script>
+</body>
+</html>
